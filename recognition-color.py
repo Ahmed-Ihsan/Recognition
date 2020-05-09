@@ -18,7 +18,7 @@ cv2.createTrackbar('upper-B','image',0,255,nothing)
 
 
 while(1):
-    #cv2.imshow('image',img)
+    
     # Take each frame
     img_w=cv2.imread("img1.png")
 
