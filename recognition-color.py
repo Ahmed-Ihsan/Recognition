@@ -4,46 +4,42 @@ import numpy as np
 def nothing(x):
     pass
 
-img=np.zeros((100,512,3),np.uint8)
-img2=np.zeros((100,512,3),np.uint8)
+img=np.zeros((0,512,3),np.uint8)
+
 cv2.namedWindow('image')
 
-cv2.createTrackbar('R','image',0,255,nothing)
-cv2.createTrackbar('G','image',0,255,nothing)
-cv2.createTrackbar('B','image',0,255,nothing)
+cv2.createTrackbar('lower-R','image',0,255,nothing)
+cv2.createTrackbar('lower-G','image',0,255,nothing)
+cv2.createTrackbar('lower-B','image',0,255,nothing)
+cv2.createTrackbar('upper-R','image',0,255,nothing)
+cv2.createTrackbar('upper-G','image',0,255,nothing)
+cv2.createTrackbar('upper-B','image',0,255,nothing)
 
-cv2.createTrackbar('R1','image',0,255,nothing)
-cv2.createTrackbar('G1','image',0,255,nothing)
-cv2.createTrackbar('B1','image',0,255,nothing)
 
-cap = cv2.VideoCapture(0)
 
 while(1):
-    cv2.imshow('image',img)
-    cv2.imshow('image',img2)
+    #cv2.imshow('image',img)
     # Take each frame
     img_w=cv2.imread("img1.png")
 
     # Convert BGR to HSV
     #img_w = cv2.cvtColor(img_w, cv2.COLOR_BGR2HSV)
 
-    r=cv2.getTrackbarPos('R','image')
-    g=cv2.getTrackbarPos('G','image')
-    b=cv2.getTrackbarPos('B','image')
-    r1=cv2.getTrackbarPos('R1','image')
-    g1=cv2.getTrackbarPos('G1','image')
-    b1=cv2.getTrackbarPos('B1','image')
+    r=cv2.getTrackbarPos('lower-R','image')
+    g=cv2.getTrackbarPos('lower-G','image')
+    b=cv2.getTrackbarPos('lower-B','image')
+    r1=cv2.getTrackbarPos('upper-R','image')
+    g1=cv2.getTrackbarPos('upper-G','image')
+    b1=cv2.getTrackbarPos('upper-B','image')
     
-    img[:]=[b,g,r]
-    img2[:]=[b1,g1,r1]
     # define range of blue color in HSV
-    lower_blue = np.array([b1,g1,r1])
-    upper_blue = np.array([b,g,r])
+    lower_color = np.array([b,g,r])
+    upper_color = np.array([b1,g1,r1])
 
     
 
     # Threshold the HSV image to get only blue colors
-    mask = cv2.inRange(img_w, lower_blue, upper_blue)
+    mask = cv2.inRange(img_w, lower_color, upper_color)
 
     # Bitwise-AND mask and original image
     res = cv2.bitwise_and(img_w,img_w, mask= mask)
